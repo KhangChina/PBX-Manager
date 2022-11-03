@@ -1,0 +1,171 @@
+<div class="content-wrapper">
+  <div class="content-body">
+
+    <div class="content-header row">
+      <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+          <div class="col-12">
+            <h2 class="content-header-title float-left mb-0">Phone Account</h2>
+            <div class="breadcrumb-wrapper">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item">Phone Account</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-header-right text-md-right col-md-3 col-12 d-md-block d-none" >
+        <div class="form-group breadcrum-right">
+          <button class="btn btn-primary" rippleEffect>
+            <i data-feather="plus"></i>
+            Create Phone Account 
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card">
+      <h5 class="card-header">Search Filter</h5>
+      <div class="card-body">
+        <div class="users-list-filter">
+          <form>
+            <div class="row">
+              <div class="col-12 col-md-4">
+                <fieldset class="form-group">
+                  <ng-select [items]="selectRole" name="selectedRole" bindLabel="name" placeholder="Select Context" ></ng-select>
+                </fieldset>
+              </div>
+              <div class="col-12 col-md-4">
+                <fieldset class="form-group">
+                  <ng-select [items]="selectStatus"  name="selectedPlan" bindLabel="name" placeholder="Select Status" ></ng-select>
+                </fieldset>
+              </div>
+              <div class="col-12 col-md-4">
+                <fieldset class="form-group">
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><span [data-feather]="'search'"></span></span>
+                    </div>
+                    <input type="text"  class="form-control" placeholder="Search"/>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-hover-animation">
+              <thead>
+                <tr >
+                  <th>Name</th>
+                  <th>SIP/User/ID</th>
+                  <th>Context</th>
+                  <th>IP Client Device</th>
+                  <th>Status</th>
+                  <th>Create</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of listSip">
+                  <td><span class="font-weight-bold">{{item.Name}}</span>
+                  </td>
+                  <td>{{item.Sip}}</td>
+                  <td>
+                    {{item.Context}}
+                  </td>
+                  <td>{{item.Ip}}</td>
+                  <td *ngIf="item.Status === '1'"><span class="badge badge-pill badge-light-primary mr-1">Active</span></td>
+                  <td *ngIf="item.Status === '0'"><span class="badge badge-pill badge-light-danger mr-1">Deactivate</span></td>
+                  <td>{{item.Create}}</td>
+                  <td class="overflow-hidden">
+                    <div ngbDropdown container="body">
+                      <button type="button" class="btn btn-sm hide-arrow" ngbDropdownToggle data-toggle="dropdown">
+                        <i data-feather="more-vertical"></i>
+                      </button>
+                      <div ngbDropdownMenu>
+                        <a ngbDropdownItem href="javascript:void(0);"
+                          ><i data-feather="edit-2" class="mr-50"></i><span>Edit</span></a
+                        ><a ngbDropdownItem href="javascript:void(0);"
+                          ><i data-feather="trash" class="mr-50"></i><span>Delete</span></a
+                        >
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+                </table>
+            </div>
+               <section>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center mt-2">
+                          <li class="page-item prev-item">
+                            <a
+                              class="page-link"
+                              href="javascript:void(0);"
+                            ></a>
+                          </li>
+                          <li class="page-item active">
+                            <a class="page-link" href="javascript:void(0);"
+                              >1</a
+                            >
+                          </li>
+                          <li class="page-item">
+                            <a class="page-link" href="javascript:void(0);"
+                              >2</a
+                            >
+                          </li>
+                          <li class="page-item">
+                            <a class="page-link" href="javascript:void(0);"
+                              >3</a
+                            >
+                          </li>
+                          <li class="page-item" aria-current="page">
+                            <a class="page-link" href="javascript:void(0);"
+                              >4</a
+                            >
+                          </li>
+                          <li class="page-item">
+                            <a class="page-link" href="javascript:void(0);"
+                              >5</a
+                            >
+                          </li>
+                          <li class="page-item">
+                            <a class="page-link" href="javascript:void(0);"
+                              >6</a
+                            >
+                          </li>
+                          <li class="page-item">
+                            <a class="page-link" href="javascript:void(0);"
+                              >7</a
+                            >
+                          </li>
+                          <li class="page-item next-item">
+                            <a
+                              class="page-link"
+                              href="javascript:void(0);"
+                            ></a>
+                          </li>
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
+                </section>     
+        </div>
+      </div>
+    </div>
+  
+  </div>
+</div>

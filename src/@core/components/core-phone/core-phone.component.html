@@ -1,0 +1,259 @@
+<div class="customizer-content" [perfectScrollbar]>
+  <!-- Customizer header -->
+  <div class="customizer-header px-2 pt-1 pb-0 position-relative">
+    <h4 class="mb-0">Soft Phone</h4>
+<br>
+    <div class="badge badge-danger mx-1" *ngIf="!checkSIP" >
+      <i data-feather="alert-triangle" class="mr-25"> </i>
+      <span [textContent]="statusSip"></span>
+    </div>
+
+    <div class="badge badge-success mx-1" *ngIf="checkSIP" >
+      <i data-feather="check-circle" class="mr-25"> </i>
+      <span [textContent]="statusSip"></span>
+    </div>
+
+
+    <div class="badge badge-danger" *ngIf="!checkWeb" >
+      <i data-feather="alert-triangle" class="mr-25"></i>
+      <span [textContent]="statusWeb"></span>
+    </div>
+
+    <div class="badge badge-success" *ngIf="checkWeb" >
+      <i data-feather="check-circle" class="mr-25"></i>
+      <span [textContent]="statusWeb"></span>
+    </div>
+
+    <a class="customizer-close" (click)="toggleSidebar('phone')"><span [data-feather]="'x'"></span></a>
+  </div>
+
+   
+<section>
+  <div class="divider divider-center">
+    <div class="divider-text"> <div class="divider-text"><span [data-feather]="'video'"></span></div></div>
+  </div>
+
+  <div class="col card">
+    <video autoplay #localVideo class="card" controls></video>
+    <video autoplay #remoteVideo class="card" controls></video>
+    <audio autoplay id="remote-stream-audio"></audio>
+  </div>
+
+  <div class="divider divider-center">
+    <div class="divider-text"> <div class="divider-text"><span [data-feather]="'phone-forwarded'"></span></div></div>
+  </div>
+
+  <div class="col-12 text-center">
+
+    <button type="button" [disabled]="btnCallAudio" rippleEffect class="btn btn-outline-primary mr-1" (click)="callAudio()"><i data-feather='phone-call'></i> Audio</button>
+    <!-- <button type="button" [disabled]="btnCall" rippleEffect class="btn btn-outline-primary mr-1" (click)="callAudio(modalCall)"><i data-feather='phone-call'></i></button> -->
+    <button type="button" [disabled]="btnCallVideo" rippleEffect class="btn btn-outline-info mr-1" (click)=" callVideo()"><i data-feather='video' ></i> Video</button>
+    <button type="button" [disabled]="btnHangup" rippleEffect class="btn btn-outline-danger mr-1" (click)="hangup() "><i data-feather='phone-off'></i> Hangup</button>
+    
+  </div>
+</section>
+
+
+<section>
+  <div class="divider divider-center" >
+  <div class="divider-text"><span [data-feather]="'settings'"></span></div>
+  </div>
+ 
+  <div class="col-12 text-center">
+    <button  rippleEffect class="btn btn-success mr-1" (click)="createLogin(modalLogin)"><i data-feather='wifi'></i> Login</button>
+    <!-- <button type="reset" rippleEffect class="btn btn-outline-danger">Close</button> -->
+  </div>
+
+
+</section>
+  
+</div>
+
+<ng-template #modalIncomingUI let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Call Incoming </h4>
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+   
+    <div>
+      Call From
+
+    </div>
+    <div class="col text-center">
+
+      <button type="button" class="btn btn-success mr-1" (click)="answerCallAudio()" rippleEffect>
+        <i data-feather='phone-call'></i> Answer Audio
+       </button>
+
+      <button type="button" class="btn btn-warning mr-1" (click)="answerCallVideo()" rippleEffect>
+       <i data-feather='video-off'></i> Answer Camera
+      </button>
+
+      <button type="button" class="btn btn-info mr-1" (click)="modal.close('Accept click')" rippleEffect>
+       <i data-feather='video'></i> Stop Music
+      </button>
+
+      <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+        <i data-feather='phone-off'></i> Hangup
+      </button>
+
+      <!-- <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">You</h4>
+            <video autoplay #localVideo class="card" controls></video>
+            <audio autoplay id="remote-stream-audio"></audio>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Remote</h4>
+            <video autoplay #remoteVideo class="card" controls></video>
+          </div>
+        </div>
+      </div> -->
+
+    </div>
+
+  </div>
+  <!-- <div class="modal-footer">
+   
+  </div> -->
+</ng-template>
+
+<ng-template #modalLogin let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Login </h4>
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body"  ngbAutofocus>
+    <div class="col-12" >
+      <div class="form-group">
+        <ngb-alert *ngIf="!checkSIP" [type]="'danger'"  class="mt-1" [dismissible]="false">
+          <div class="alert-body">
+            <!-- <span [data-feather]="'alert-triangle'" [class]="'mr-50 align-middle'"></span> -->
+            <i data-feather='alert-triangle' class="mr-50 align-middle"></i>
+            <span [textContent]="statusSip"></span>
+          </div>
+        </ngb-alert>
+        <ngb-alert *ngIf="!checkWeb" [type]="'danger'"  class="mt-1" [dismissible]="false">
+          <div class="alert-body">
+            <i data-feather='alert-triangle' class="mr-50 align-middle"></i>
+            <!-- <span [data-feather]="'alert-triangle'" [class]="'mr-50 align-middle'"></span> -->
+            <span [textContent]="statusWeb"></span>
+          </div>
+        </ngb-alert>
+        <ngb-alert *ngIf="checkSIP" [type]="'success'"  class="mt-1" [dismissible]="false">
+          <div class="alert-body">
+            <i data-feather='check-circle' class="mr-50 align-middle"></i>
+            <!-- <i data-feather='success' class="mr-50 align-middle"></i> -->
+            <span [textContent]="statusSip"></span>
+          </div>
+        </ngb-alert>
+        <ngb-alert *ngIf="checkWeb" [type]="'success'"  class="mt-1" [dismissible]="false">
+          <div class="alert-body">
+            <i data-feather='check-circle' class="mr-50 align-middle"></i>
+            <span [textContent]="statusWeb"></span>
+          </div>
+        </ngb-alert>
+      
+      </div>
+      
+    </div>
+    <div class="col-12" >
+      <div class="form-group">
+        <label for="first-name-icon">Sip Server</label>
+        <div class="input-group input-group-merge">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><span [data-feather]="'server'"></span></span>
+          </div>
+          <input
+            [disabled] = 'txtSipServer'
+            [(ngModel)] = "pjsip.sipServer"
+            type="text"
+            id="first-name-icon"
+            class="form-control"
+  
+            name="fname-icon"
+            placeholder="192.168.100.99:5060"
+          />
+        </div>
+       
+  
+      </div>
+  
+    </div>
+    <div class="col-12">
+      <div class="form-group">
+        <label for="email-id-icon">Websocket Server</label>
+        <div class="input-group input-group-merge">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><span [data-feather]="'minimize-2'"></span></span>
+          </div>
+          <input
+            [disabled] = 'txtWebServer'
+            [(ngModel)] = "pjsip.webServer"
+            type="text"
+            class="form-control"
+            placeholder="ws://102.168.100.99:8088/ws"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="form-group">
+        <label for="contact-info-icon">SIP/USER/ID</label>
+        <div class="input-group input-group-merge">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><span [data-feather]="'smartphone'"></span></span>
+          </div>
+          <input
+            [disabled] = 'txtUser'
+            [(ngModel)] = "pjsip.user"
+            type="text"
+            id="contact-info-icon"
+            class="form-control"
+            name="contact-icon"
+            placeholder="369"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="form-group">
+        <label for="password-icon">Password</label>
+        <div class="input-group input-group-merge">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><span [data-feather]="'lock'"></span></span>
+          </div>
+          <input
+            [disabled] = 'txtPass'
+            [(ngModel)] = "pjsip.pass"
+            type="password"
+            id="password-icon"
+            class="form-control"
+            name="contact-icon"
+            placeholder="Password"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" [disabled]="btnReg" rippleEffect class="btn btn-success mr-1" (click)="register()"><i data-feather='wifi'></i> Register</button>
+    <button type="submit" [disabled]="btnUnReg" rippleEffect class="btn btn-primary mr-1" (click)="unRegister()"><i data-feather='wifi-off'></i> UnRegister</button>
+  </div>
+ 
+</ng-template>
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
