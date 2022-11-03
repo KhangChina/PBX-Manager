@@ -47,7 +47,7 @@ export class CorePhoneComponent implements OnInit {
     this.toggleSidebar('phone')
   }
   toggleSidebar(key): void {
-    this._coreSidebarService.getSidebarRegistry(key).toggleOpen();
+    this.modalPhone = this._coreSidebarService.getSidebarRegistry(key).toggleOpen();
   }
 
   @Input() pjsip: Pjsip
@@ -62,6 +62,7 @@ export class CorePhoneComponent implements OnInit {
   modalCallAudio: any
   modalCallVideo: any
   modalLogin: any
+  modalPhone : any
 
   public callSession: Session = new Session("", "")
 
@@ -73,6 +74,8 @@ export class CorePhoneComponent implements OnInit {
   btnReg: boolean = true
   btnHangup: boolean = true
   btnLogin: boolean = false
+  btnMute : boolean = true
+  btnOffVideo :boolean = true
 
   txtCall: boolean = true
   btnCallAudio: boolean = true
@@ -84,10 +87,13 @@ export class CorePhoneComponent implements OnInit {
 
   statusSip: string = ""
   statusWeb: string = ""
+  statusMute : boolean = true
+  statusVideo : boolean = true
 
   checkSIP: boolean = false
   checkWeb: boolean = false
 
+  sessionIncoming : any
   startSipPhone() {
     console.log(this.pjsip.webServer + " start")
     let socket = new JsSIP.WebSocketInterface(this.pjsip.webServer);
@@ -124,32 +130,34 @@ export class CorePhoneComponent implements OnInit {
       this.uiRefresh()
     });
     this.callSession.sipPhone.on('newRTCSession', (e: any) => {
-      var session = e.session;
-      if (session.direction === "incoming") {
-        console.log(session)
-        this.toggleSidebar('phone')
+      this.sessionIncoming = e.session;
+      if (this.sessionIncoming.direction === "incoming") {
+        console.log(this.sessionIncoming)
+
+        this._coreSidebarService.getSidebarRegistry('phone').close()
+        //this.toggleSidebar('phone')
         this.modalIncoming = this.modalService.open(this.modalIncomingUI, {
           backdrop: false,
           centered: true,
           windowClass: 'modal modal-primary',
           size: 'lg'
         })
-        this.callSession.session = session
+        this.callSession.session = this.sessionIncoming
         // incoming call here
-        session.on("accepted", () => {
+        this.sessionIncoming.on("accepted", () => {
           console.log("incoming accepted")
           this.uiCalling()
         });
-        session.on("confirmed", () => {
+        this.sessionIncoming.on("confirmed", () => {
           console.log("incoming confirmed")
           this.remoteVideo.nativeElement.srcObject = this.callSession.session.connection.getRemoteStreams()[0]
           this.localVideo.nativeElement.srcObject = this.callSession.session.connection.getLocalStreams()[0]
         });
-        session.on("ended", () => {
+        this.sessionIncoming.on("ended", () => {
           console.log("incoming ended")
           this.uiRefresh()
         });
-        session.on("failed", () => {
+        this.sessionIncoming.on("failed", () => {
           console.log("incoming failed")
           this.uiRefresh()
           // unable to establish the call
@@ -172,7 +180,9 @@ export class CorePhoneComponent implements OnInit {
     this.startSipPhone()
     this.loading = false
     this.modalLogin.close()
-
+    this.toggleSidebar('phone')
+    
+   // console.log(this.modalPhone)
   }
   unRegister() {
     this.uiRefreshSIP(2, "")
@@ -230,11 +240,13 @@ export class CorePhoneComponent implements OnInit {
     }
 
   }
+
   uiRefresh() {
    
     if (this.checkSIP && this.checkWeb) {
       this.txtCall = false
       this.selectPhoneBook = false
+    
       
     }
     else {
@@ -244,6 +256,8 @@ export class CorePhoneComponent implements OnInit {
     }
     this.btnHangup = true
     this.selectPhoneNumber = null
+    this.btnMute = true
+    this.btnOffVideo = true
   }
 
   uiCalling()
@@ -252,10 +266,10 @@ export class CorePhoneComponent implements OnInit {
     this.btnLogin = true
     this.btnCallAudio = true
     this.btnCallVideo = true
+    this.btnMute = false
   }
   
   checkCallNumber() {
-    console.log(this.selectPhoneNumber)
     if (this.selectPhoneNumber === null) {
 
       this.btnCallVideo = true
@@ -269,6 +283,7 @@ export class CorePhoneComponent implements OnInit {
   }
 
   callVideo() {
+    this.btnOffVideo = false
     this.pjsip.video = true
     this.call()
   }
@@ -314,7 +329,6 @@ export class CorePhoneComponent implements OnInit {
 
     this.callSession.session = this.callSession.sipPhone.call(`sip:${this.selectPhoneNumber}@${this.pjsip.sipServer}`, options)
   }
-
   createLogin(modalLogin) {
 
     this.modalLogin = this.modalService.open(modalLogin, {
@@ -323,8 +337,8 @@ export class CorePhoneComponent implements OnInit {
       windowClass: 'modal modal-primary',
       size: 'sm'
     });
+    this.toggleSidebar('phone');
   }
-
   answerCallAudio() {
     var callOptions = {
       mediaConstraints: {
@@ -337,19 +351,66 @@ export class CorePhoneComponent implements OnInit {
     this.modalIncoming.close()
     this.toggleSidebar('phone')
   }
-  answerVideoCall() {
+  answerCallVideo() {
     var callOptions = {
       mediaConstraints: {
         audio: true, // only audio calls
         video: true
       }
     }
+    this.btnOffVideo = false
     this.callSession.session.answer(callOptions)
     this.modalIncoming.close()
     this.toggleSidebar('phone')
   }
-
+  muteCall()
+  {  
+   
+    let checkMute = this.sessionIncoming.isMuted()
+    
+    if(checkMute.audio)
+    {
+      //console.log(checkMute)
+      this.sessionIncoming.unmute({
+        audio:true,//not use audio properties
+        video:false  // use camera properties
+      })
+      this.statusMute = checkMute.audio
+     // console.log("unmute: "+this.statusMute)
+     
+    }
+    else
+    {
+      //console.log(checkMute)
+      this.sessionIncoming.mute({
+        audio:true,//not use audio properties
+        video:false  // use camera properties
+      })
+      this.statusMute = checkMute.audio
+     // console.log("mute: "+this.statusMute)
+    
+    }
+  }
+  offVideo(){
+    let checkVideo = this.sessionIncoming.isMuted()
+    console.log(checkVideo)
+    if(checkVideo.video)
+    {
+      console.log("On camera")
+      this.sessionIncoming.unmute({
+        audio:false,//not use audio properties
+        video:true  // use camera properties
+      })
+      this.statusVideo = checkVideo.video
+    }
+    else
+    {
+      console.log("Off camera")
+      this.sessionIncoming.mute({
+        audio:false, //not use audio properties
+        video:true // use camera properties
+      })
+      this.statusVideo = checkVideo.video
+    }
+  }
 }
-
-
-//_audioMuted
