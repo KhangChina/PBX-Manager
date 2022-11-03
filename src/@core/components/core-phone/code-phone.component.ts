@@ -362,6 +362,7 @@ export class CorePhoneComponent implements OnInit {
     this.callSession.session.answer(callOptions)
     this.modalIncoming.close()
     this.toggleSidebar('phone')
+    this.btnOffVideo = true
   }
   answerCallVideo() {
     var callOptions = {
