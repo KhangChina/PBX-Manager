@@ -77,8 +77,10 @@ export class CorePhoneComponent implements OnInit {
   txtCall: boolean = true
   btnCallAudio: boolean = true
   btnCallVideo: boolean = true
-  selectPhoneNumber: number
+  selectPhoneNumber: number = null
   loading: boolean = false
+  selectPhoneBook: boolean = true
+  
 
   statusSip: string = ""
   statusWeb: string = ""
@@ -164,6 +166,7 @@ export class CorePhoneComponent implements OnInit {
     this.txtPass = true
     this.btnUnReg = false
     this.btnReg = true
+    
 
     this.loading = true
     this.startSipPhone()
@@ -228,10 +231,10 @@ export class CorePhoneComponent implements OnInit {
 
   }
   uiRefresh() {
+   
     if (this.checkSIP && this.checkWeb) {
-      this.btnCallAudio = false
-      this.btnCallVideo = false
       this.txtCall = false
+      this.selectPhoneBook = false
       
     }
     else {
@@ -240,23 +243,28 @@ export class CorePhoneComponent implements OnInit {
       this.txtCall = true
     }
     this.btnHangup = true
+    this.selectPhoneNumber = null
   }
 
   uiCalling()
   {
     this.btnHangup = false
     this.btnLogin = true
+    this.btnCallAudio = true
+    this.btnCallVideo = true
   }
   
   checkCallNumber() {
-
+    console.log(this.selectPhoneNumber)
     if (this.selectPhoneNumber === null) {
 
-      //this.btnCallVideo = true
+      this.btnCallVideo = true
+      this.btnCallAudio = true
     }
     else {
 
-      //this.btnCallVideo = false
+      this.btnCallVideo = false
+      this.btnCallAudio = false
     }
   }
 
@@ -279,16 +287,17 @@ export class CorePhoneComponent implements OnInit {
     var eventHandlers = {
       progress: (e: any) => {
         console.log("progress")
+        this.uiCalling()
       },
 
       failed: (e: any) => {
         console.log('call failed with cause :' + e.cause)
-
+        this.uiRefresh()
       },
 
       ended: (e: any) => {
         console.log('call ended')
-
+        this.uiRefresh()
       },
 
       confirmed: (e: any) => {

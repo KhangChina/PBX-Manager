@@ -1,7 +1,7 @@
 <div class="customizer-content" [perfectScrollbar]>
   <!-- Customizer header -->
   <div class="customizer-header px-2 pt-1 pb-0 position-relative">
-    <h4 class="mb-0">Soft Phone</h4>
+    <h4 class="mb-0">Soft Phone <div class="badge badge-glow badge-info">{{pjsip.user}}</div></h4>
 <br>
     <div class="badge badge-danger mx-1" *ngIf="!checkSIP" >
       <i data-feather="alert-triangle" class="mr-25"> </i>
@@ -34,13 +34,43 @@
   </div>
 
   <div class="col card">
-    <video autoplay #localVideo class="card" controls></video>
-    <video autoplay #remoteVideo class="card" controls></video>
+    <video autoplay #localVideo class="card call-video" controls></video>
+    <video autoplay #remoteVideo class="card call-video" controls></video>
     <audio autoplay id="remote-stream-audio"></audio>
   </div>
 
   <div class="divider divider-center">
     <div class="divider-text"> <div class="divider-text"><span [data-feather]="'phone-forwarded'"></span></div></div>
+  </div>
+
+  <div class="col-12">
+    <div class="form-group">
+      <!-- <div class="col-sm-9"> -->
+        <div class="input-group input-group-merge">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><span [data-feather]="'phone'"></span></span>
+          </div>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="0974440775"
+            [(ngModel)]="selectPhoneNumber"
+            [disabled]="txtCall"
+            (ngModelChange)="checkCallNumber()"
+          />
+        </div>
+      <!-- </div> -->
+    </div>
+  </div>
+  <div class="col-12">
+    
+    <div class="form-group">
+      <!-- Basic Select with Search -->
+      <!-- <label>Phonebook</label> -->
+     <label>Phone Book</label>
+      <ng-select [disabled]="selectPhoneBook" (change)="checkCallNumber()" [items]="phoneBook" bindLabel="name" bindValue="value"    [(ngModel)]="selectPhoneNumber"> </ng-select>
+      <!--/ Basic Select with Search -->
+    </div>
   </div>
 
   <div class="col-12 text-center">
