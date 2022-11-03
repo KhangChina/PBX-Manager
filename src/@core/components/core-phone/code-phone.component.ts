@@ -132,8 +132,8 @@ export class CorePhoneComponent implements OnInit {
     this.callSession.sipPhone.on('newRTCSession', (e: any) => {
       this.sessionIncoming = e.session;
       if (this.sessionIncoming.direction === "incoming") {
-        console.log(this.sessionIncoming)
-
+        //console.log(this.sessionIncoming)
+        //console.log(this.sessionIncoming.isMuted())
         this._coreSidebarService.getSidebarRegistry('phone').close()
         //this.toggleSidebar('phone')
         this.modalIncoming = this.modalService.open(this.modalIncomingUI, {
@@ -155,10 +155,16 @@ export class CorePhoneComponent implements OnInit {
         });
         this.sessionIncoming.on("ended", () => {
           console.log("incoming ended")
+          if (this.modalIncoming) {
+            this.modalIncoming.close()
+          }
           this.uiRefresh()
         });
         this.sessionIncoming.on("failed", () => {
           console.log("incoming failed")
+          if (this.modalIncoming) {
+            this.modalIncoming.close()
+          }
           this.uiRefresh()
           // unable to establish the call
         });
@@ -258,6 +264,9 @@ export class CorePhoneComponent implements OnInit {
     this.selectPhoneNumber = null
     this.btnMute = true
     this.btnOffVideo = true
+
+    this.remoteVideo.nativeElement.srcObject = null
+    this.localVideo.nativeElement.srcObject = null
   }
 
   uiCalling()
@@ -267,6 +276,8 @@ export class CorePhoneComponent implements OnInit {
     this.btnCallAudio = true
     this.btnCallVideo = true
     this.btnMute = false
+    this.txtCall = true
+    this.selectPhoneBook = true
   }
   
   checkCallNumber() {
@@ -297,6 +308,7 @@ export class CorePhoneComponent implements OnInit {
     if (this.modalIncoming) {
       this.modalIncoming.close()
     }
+    this.uiRefresh()
   }
   call() {
     var eventHandlers = {
