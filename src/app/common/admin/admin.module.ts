@@ -28,6 +28,14 @@ const routes: Routes = [
         loadChildren: () => import('../phone-account/phone-account.module').then(m => m.PhoneAccountModule),
        
       },
+      {
+        path: 'phone-log',
+        loadChildren: () => import('../phone-log/phone-log.module').then(m => m.PhoneLogModule),
+      },
+      {
+        path: 'pbx-context',
+        loadChildren: () => import('../pbx-context/pbx-context.module').then(m => m.PbxContextModule),
+      },
     ]
   }
 ]

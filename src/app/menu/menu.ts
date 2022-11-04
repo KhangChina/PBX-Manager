@@ -17,25 +17,26 @@ export const menu: CoreMenu[] = [
     url: 'phone-account'
   },
   {
-    id: 'pbx-log',
+    id: 'phone-log',
     title: 'Phone Log',
     type: 'item',
     icon: 'file-text',
-    url:'sip-campaign'
+    url:'phone-log'
   },
   {
-    id: 'pbx-campaign',
-    title: 'Campaign',
+    id: 'pbx-context',
+    title: 'Context',
     type: 'item',
     icon: 'navigation',
-    url:'sip-campaign'
+    url:'pbx-context'
   },
   {
     id: 'user',
     title: 'User',
     type: 'item',
     icon: 'user',
-    url: 'user-manager'
+    url: 'user-manager',
+    disabled:true
   },
 {
   id: 'setting',
@@ -50,6 +51,7 @@ export const menu: CoreMenu[] = [
       icon: "circle",
       type:'item',
       url: "asterisk-config",
+      disabled:true,
     },
     {
       id:'server-config',
@@ -58,6 +60,7 @@ export const menu: CoreMenu[] = [
       // translate: "List Outgoing",
       icon: "circle",
       url: "server-config",
+      disabled:true,
     },
      {
       id:'avr',
@@ -66,6 +69,7 @@ export const menu: CoreMenu[] = [
       // translate: "List Outgoing",
       icon: "circle",
       url: "avr",
+      disabled:true,
     },
   ]
 }

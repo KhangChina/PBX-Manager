@@ -75,7 +75,36 @@ export class AuthLoginV2Component implements OnInit {
     this.passwordTextType = !this.passwordTextType;
   }
 
-  async onSubmit() {
+  // async onSubmit() {
+  //   this.submitted = true;
+
+  //   // stop here if form is invalid
+  //   if (this.loginForm.invalid) {
+  //     return;
+  //   }
+  //   // Login
+  //   this.loading = true;
+  //   const body ={
+  //     username: this.loginForm.controls.email.value,
+  //     password:this.loginForm.controls.password.value
+  //   }
+
+  //  this.rest.post(this.url,body).then(result => {
+  //   let dataLogin = result["data"] as {accessToken:string, refreshToken:string}
+  //   localStorage.setItem('accessToken',dataLogin.accessToken)
+  //   localStorage.setItem('refreshToken',dataLogin.refreshToken)
+  //   this._router.navigate(['/']);
+    
+  //  }).catch(error=>{
+  //   console.log(error)
+  //   this.toastrError(error.statusText,error.error["message"])
+  //   this.loading = false;
+  //  })
+
+  // }
+
+   //Dev demo
+   async onSubmit() {
     this.submitted = true;
 
     // stop here if form is invalid
@@ -88,21 +117,18 @@ export class AuthLoginV2Component implements OnInit {
       username: this.loginForm.controls.email.value,
       password:this.loginForm.controls.password.value
     }
-
-    localStorage.setItem('accessToken',"china1123")
-    localStorage.setItem('refreshToken',"chinâ455")
-
-  //  this.rest.post(this.url,body).then(result => {
-  //   let dataLogin = result["data"] as {accessToken:string, refreshToken:string}
-  //   localStorage.setItem('accessToken',dataLogin.accessToken)
-  //   localStorage.setItem('refreshToken',dataLogin.refreshToken)
-    this._router.navigate(['/']);
+    if(body.username === "htgsoft@htgsoft.com" && body.password === "htgsoft2022")
+    {
+      localStorage.setItem('accessToken',"accessToken")
+      localStorage.setItem('refreshToken',"refreshToken")
+      this._router.navigate(['/']);
+    }
+    else
+    {
+      this.toastrError("Unauthorized","Username Or Password not found !")
+      this.loading = false;
+    }
     
-  //  }).catch(error=>{
-  //   console.log(error)
-  //   this.toastrError(error.statusText,error.error["message"])
-  //   this.loading = false;
-  //  })
 
   }
 

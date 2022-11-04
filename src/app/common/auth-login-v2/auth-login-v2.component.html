@@ -11,6 +11,18 @@
         <h4 class="card-title mb-1">Welcome to PBX Server! 👋</h4>
         <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
 
+         <!-- Dev -->
+         <ngb-alert [type]="'primary'" [dismissible]="false">
+          <h4 class="alert-heading"><span [data-feather]="'info'" [class]="'mr-25 align-middle'"></span>Info demo:</h4>
+          <div class="alert-body">
+            Username: htgsoft@htgsoft.com <br>
+            Password: htgsoft2022
+          </div>
+         
+        </ngb-alert>
+        <!-- ------ -->
+
+
         <form class="auth-login-form mt-2" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label for="login-email" class="form-label">Email Or Username</label>
