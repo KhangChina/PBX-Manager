@@ -77,11 +77,10 @@ export class DashboardComponent implements OnInit {
       shade_200: '#06774f'
     },
     donut: {
-      series1: '#ffe700',
-      series2: '#00d4bd',
-      series3: '#826bf8',
-      series4: '#2b9bf4',
-      series5: '#FFA1A1'
+      series1: '#28C76F',
+      series2: '#4b4b4b',
+      series3: '#00cfe8',
+      series4: '#EA5455',
     },
     area: {
       series3: '#a4f8cd',
@@ -360,7 +359,7 @@ export class DashboardComponent implements OnInit {
         }
     };
     this.apexDonutChart = {
-      series: [85, 16, 50, 50],
+      series: [10, 2, 20, 5],
       chart: {
         height: 350,
         type: 'donut'
@@ -369,7 +368,7 @@ export class DashboardComponent implements OnInit {
         this.chartColors.donut.series1,
         this.chartColors.donut.series2,
         this.chartColors.donut.series3,
-        this.chartColors.donut.series5
+        this.chartColors.donut.series4
       ],
       plotOptions: {
         pie: {
@@ -390,9 +389,9 @@ export class DashboardComponent implements OnInit {
               total: {
                 show: true,
                 fontSize: '1.5rem',
-                label: 'Operational',
+                label: 'User',
                 formatter: function (w) {
-                  return '31%';
+                  return '37 Device';
                 }
               }
             }
@@ -403,7 +402,7 @@ export class DashboardComponent implements OnInit {
         show: true,
         position: 'bottom'
       },
-      labels: ['Team A', 'Team B', 'Team C', 'Team D'],
+      labels: ['Online', 'Offline', 'Active', 'Deactivate'],
       responsive: [
         {
           breakpoint: 480,
@@ -445,11 +444,8 @@ export class DashboardComponent implements OnInit {
   private $purple = '#df87f2';
 
   public employeeDangerChartoptions;
-  public employeePrimaryChartoptions;
   public employeeSuccessChartoptions;
-  public employeeSecondaryChartoptions;
-  public employeeWarningChartoptions;
-  public employeePrimaryTwoChartoptions;
+
 
   
 
