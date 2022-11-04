@@ -1,1 +1,447 @@
-<p>dashboard works!</p>
+<div class="row match-height">
+  <div class="col-lg-6 col-md-12 col-sm-12">
+     <div class="card card-congratulations">
+       <div class="card-body text-center">
+         <img src="assets/images/elements/decore-left.png" class="congratulations-img-left" alt="card-img-left" />
+         <img src="assets/images/elements/decore-right.png" class="congratulations-img-right" alt="card-img-right" />
+         <div class="avatar avatar-xl bg-primary shadow">
+           <div class="avatar-content">
+             <i data-feather="award" class="font-large-1"></i>
+           </div>
+         </div>
+         <div class="text-center">
+           <h1 class="mb-1 text-white">Welcome to PBX Manager Admin</h1>
+           <p class="card-text m-auto w-75">This page can be accessed <strong>only by administrators</strong>.</p>
+
+           <!-- <p class="card-text m-auto w-75">
+             All users from secure (admin only) api end point.
+             <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+             <ng-container *ngIf="users">
+               <span *ngFor="let user of users">{{ user.firstName }} {{ user.lastName }} ({{ user.role }}), </span>
+             </ng-container>
+           </p> -->
+           
+         </div>
+       </div>
+     </div>
+   </div>
+   <div class="col-lg-3 col-sm-6 col-12">
+    <div class="card">
+      <div class="card-header d-flex flex-column align-items-start pb-0">
+      <div class="row">
+        <div class="avatar bg-light-primary p-50 m-0 col">
+          <div class="avatar-content">
+            <i data-feather="phone-outgoing" class="font-medium-5"></i>
+          </div> 
+        </div>
+        <div ngbDropdown class="chart-dropdown col" >
+          <button
+            rippleEffect
+            class="btn btn-sm border-0 p-50"
+            ngbDropdownToggle
+            type="button"
+            id="dropdownItem4"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            >
+            Last 7 Days
+          </button>
+          <div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownItem4">
+            <a ngbDropdownItem href="javascript:void(0);">Last 28 Days</a>
+            <a ngbDropdownItem href="javascript:void(0);">Last Month</a>
+            <a ngbDropdownItem href="javascript:void(0);">Last Year</a>
+          </div>
+        </div>
+      </div>
+        <h2 class="font-weight-bolder mt-1">{{ data.subscribers_gained.analyticsData.subscribers }}</h2>
+        <p class="mb-0">Call Out</p>
+      </div>
+      <!-- Apexchart component-->
+      <div id="gainedChartoptions" #gainedChartRef>
+        <apx-chart
+          [series]="data.subscribers_gained.series"
+          [chart]="{
+            height: 100,
+          
+            type: 'area',
+            toolbar: {
+              show: false
+            },
+            sparkline: {
+              enabled: true
+            }
+          }"
+          [stroke]="gainedChartoptions.stroke"
+          [fill]="gainedChartoptions.fill"
+          [tooltip]="gainedChartoptions.tooltip"
+          [colors]="gainedChartoptions.colors"
+          [dataLabels]="gainedChartoptions.dataLabels"
+        ></apx-chart>
+      </div>
+
+    </div>
+  </div>
+  <div class="col-lg-3 col-sm-6 col-12">
+    <div class="card">
+      <div class="card-header d-flex flex-column align-items-start pb-0">
+        <div class="row"> 
+          <div class="avatar bg-light-warning p-50 m-0 col">
+          <div class="avatar-content">
+            <i data-feather="phone-incoming" class="font-medium-5"></i>
+          </div>
+        </div>
+        <div ngbDropdown class="chart-dropdown col" >
+          <button
+            rippleEffect
+            class="btn btn-sm border-0 p-50"
+            ngbDropdownToggle
+            type="button"
+            id="dropdownItem4"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            >
+            Last 7 Days
+          </button>
+          <div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownItem4">
+            <a ngbDropdownItem href="javascript:void(0);">Last 28 Days</a>
+            <a ngbDropdownItem href="javascript:void(0);">Last Month</a>
+            <a ngbDropdownItem href="javascript:void(0);">Last Year</a>
+          </div>
+        </div>
+      </div>
+        <h2 class="font-weight-bolder mt-1">{{ data.ordersRecevied.analyticsData.orders }}</h2>
+        <p class="mb-0">Call On</p>
+      </div>
+
+      <!-- Apexchart component-->
+      <div id="orderChartoptions" #orderChartRef>
+        <apx-chart
+          [series]="data.ordersRecevied.series"
+          [chart]="{
+            height: 100,
+            type: 'area',
+            toolbar: {
+              show: false
+            },
+            sparkline: {
+              enabled: true
+            }
+          }"
+          [stroke]="orderChartoptions.stroke"
+          [fill]="orderChartoptions.fill"
+          [tooltip]="orderChartoptions.tooltip"
+          [colors]="orderChartoptions.colors"
+          [dataLabels]="orderChartoptions.dataLabels"
+        ></apx-chart>
+      </div>
+    </div>
+  </div>
+ </div>
+
+<div class="row match-height">
+
+  <div class="col-lg-6 col-md-12 col-sm-12">
+    <div class="card">
+      <div class="card-body">
+        <div id="donut-chart" #apexDonutChartRef>
+          <apx-chart
+            [series]="apexDonutChart.series"
+            [chart]="{
+              height: 350,
+              type: 'donut'
+            }"
+            [labels]="apexDonutChart.labels"
+            [plotOptions]="apexDonutChart.plotOptions"
+            [responsive]="apexDonutChart.responsive"
+            [colors]="apexDonutChart.colors"
+            [legend]="apexDonutChart.legend"
+          ></apx-chart>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class=" col-sm-6 col-12">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="font-weight-bolder mb-0">86%</h2>
+              <p class="card-text">CPU Usage</p>
+            </div>
+            <div class="avatar bg-light-primary p-50 m-0">
+              <div class="avatar-content">
+                <i data-feather="cpu" class="font-medium-5"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class=" col-sm-6 col-12">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="font-weight-bolder mb-0">1.2gb</h2>
+              <p class="card-text">Memory Usage</p>
+            </div>
+            <div class="avatar bg-light-success p-50 m-0">
+              <div class="avatar-content">
+                <i data-feather="server" class="font-medium-5"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class=" col-sm-6 col-12">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="font-weight-bolder mb-0">0.1%</h2>
+              <p class="card-text">Downtime Ratio</p>
+            </div>
+            <div class="avatar bg-light-danger p-50 m-0">
+              <div class="avatar-content">
+                <i data-feather="activity" class="font-medium-5"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class=" col-sm-6 col-12">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="font-weight-bolder mb-0">13</h2>
+              <p class="card-text">Issues Found</p>
+            </div>
+            <div class="avatar bg-light-warning p-50 m-0">
+              <div class="avatar-content">
+                <i data-feather="alert-octagon" class="font-medium-5"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+  </div>
+
+  </div>
+
+  <div class="col-lg-6 col-md-12 col-sm-12">
+    <div class="card card-employee-task">
+      <div class="card-header">
+        <h4 class="card-title">Services PBX</h4>
+      </div>
+      <div class="card-body">
+
+        <div class="employee-task d-flex justify-content-between align-items-center">
+          <div class="media">
+            <div class="avatar mr-75">
+              <div class="avatar bg-primary">
+                <span class="avatar-content"><span [data-feather]="'box'" [class]="'avatar-icon'"></span></span>
+              </div>
+            </div>
+            <div class="media-body my-auto">
+              <h6 class="mb-0">Asterisk</h6>
+              <small>Core PBX - SIP</small>
+            </div>
+          </div>
+          <div class="d-flex align-items-center">
+            <small class="text-muted mr-75">Running</small>
+            <div class="employee-task-chart-success">
+              <apx-chart
+                [chart]="employeeSuccessChartoptions.chart"
+                [grid]="employeeSuccessChartoptions.grid"
+                [colors]="employeeSuccessChartoptions.colors"
+                [series]="employeeSuccessChartoptions.series"
+                [plotOptions]="employeeSuccessChartoptions.plotOptions"
+                [stroke]="employeeSuccessChartoptions.stroke"
+              ></apx-chart>
+            </div>
+          </div>
+        </div> 
+
+        <div class="employee-task d-flex justify-content-between align-items-center">
+          <div class="media">
+            <div class="avatar mr-75">
+              <div class="avatar bg-primary">
+                <span class="avatar-content"><span [data-feather]="'box'" [class]="'avatar-icon'"></span></span>
+              </div>
+            </div>
+            <div class="media-body my-auto">
+              <h6 class="mb-0">API</h6>
+              <small>API Connect Server PBX</small>
+            </div>
+          </div>
+          <div class="d-flex align-items-center">
+            <small class="text-muted mr-75">Running</small>
+            <div class="employee-task-chart-success">
+              <apx-chart
+                [chart]="employeeSuccessChartoptions.chart"
+                [grid]="employeeSuccessChartoptions.grid"
+                [colors]="employeeSuccessChartoptions.colors"
+                [series]="employeeSuccessChartoptions.series"
+                [plotOptions]="employeeSuccessChartoptions.plotOptions"
+                [stroke]="employeeSuccessChartoptions.stroke"
+              ></apx-chart>
+            </div>
+          </div>
+        </div>
+
+        <div class="employee-task d-flex justify-content-between align-items-center">
+          <div class="media">
+            <div class="avatar mr-75">
+              <div class="avatar bg-primary">
+                <span class="avatar-content"><span [data-feather]="'box'" [class]="'avatar-icon'"></span></span>
+              </div>
+            </div>
+            <div class="media-body my-auto">
+              <h6 class="mb-0">Fail2Ban</h6>
+              <small>Service to prevent tools from attacking the server</small>
+            </div>
+          </div>
+          <div class="d-flex align-items-center">
+            <small class="text-muted mr-75">Stop</small>
+            <div class="employee-task-chart-success">
+              <apx-chart
+                [chart]="employeeDangerChartoptions.chart"
+                [grid]="employeeDangerChartoptions.grid"
+                [colors]="employeeDangerChartoptions.colors"
+                [series]="employeeDangerChartoptions.series"
+                [plotOptions]="employeeDangerChartoptions.plotOptions"
+                [stroke]="employeeDangerChartoptions.stroke"
+              ></apx-chart>
+            </div>
+          </div>
+        </div> 
+
+        <div class="employee-task d-flex justify-content-between align-items-center">
+          <div class="media">
+            <div class="avatar mr-75">
+              <div class="avatar bg-primary">
+                <span class="avatar-content"><span [data-feather]="'box'" [class]="'avatar-icon'"></span></span>
+              </div>
+            </div>
+            <div class="media-body my-auto">
+              <h6 class="mb-0">Firewall Configuration</h6>
+              <small>Trusted Management Network defined</small>
+            </div>
+          </div>
+          <div class="d-flex align-items-center">
+            <small class="text-muted mr-75">Running</small>
+            <div class="employee-task-chart-success">
+              <apx-chart
+                [chart]="employeeSuccessChartoptions.chart"
+                [grid]="employeeSuccessChartoptions.grid"
+                [colors]="employeeSuccessChartoptions.colors"
+                [series]="employeeSuccessChartoptions.series"
+                [plotOptions]="employeeSuccessChartoptions.plotOptions"
+                [stroke]="employeeSuccessChartoptions.stroke"
+              ></apx-chart>
+            </div>
+          </div>
+        </div> 
+        
+        <div class="employee-task d-flex justify-content-between align-items-center">
+          <div class="media">
+            <div class="avatar mr-75">
+              <div class="avatar bg-primary">
+                <span class="avatar-content"><span [data-feather]="'box'" [class]="'avatar-icon'"></span></span>
+              </div>
+            </div>
+            <div class="media-body my-auto">
+              <h6 class="mb-0">System Firewall</h6>
+              <small>Firewall Active</small>
+            </div>
+          </div>
+          <div class="d-flex align-items-center">
+            <small class="text-muted mr-75">Running</small>
+            <div class="employee-task-chart-success">
+              <apx-chart
+                [chart]="employeeSuccessChartoptions.chart"
+                [grid]="employeeSuccessChartoptions.grid"
+                [colors]="employeeSuccessChartoptions.colors"
+                [series]="employeeSuccessChartoptions.series"
+                [plotOptions]="employeeSuccessChartoptions.plotOptions"
+                [stroke]="employeeSuccessChartoptions.stroke"
+              ></apx-chart>
+            </div>
+          </div>
+        </div>
+
+        <div class="employee-task d-flex justify-content-between align-items-center">
+          <div class="media">
+            <div class="avatar mr-75">
+              <div class="avatar bg-primary">
+                <span class="avatar-content"><span [data-feather]="'box'" [class]="'avatar-icon'"></span></span>
+              </div>
+            </div>
+            <div class="media-body my-auto">
+              <h6 class="mb-0">UDP and Websocket Services</h6>
+              <small>Services connect phone and web phone</small>
+            </div>
+          </div>
+          <div class="d-flex align-items-center">
+            <small class="text-muted mr-75">Running</small>
+            <div class="employee-task-chart-success">
+              <apx-chart
+                [chart]="employeeSuccessChartoptions.chart"
+                [grid]="employeeSuccessChartoptions.grid"
+                [colors]="employeeSuccessChartoptions.colors"
+                [series]="employeeSuccessChartoptions.series"
+                [plotOptions]="employeeSuccessChartoptions.plotOptions"
+                [stroke]="employeeSuccessChartoptions.stroke"
+              ></apx-chart>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+ <div class="row match-height">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header align-items-start">
+          <div>
+            <h4 class="card-title mb-25">Sales</h4>
+            <p class="card-text mb-0">2020 Total Sales: {{ data.sales.analyticsData.totalSales }}</p>
+          </div>
+          <i data-feather="settings" class="font-medium-3 text-muted cursor-pointer"></i>
+        </div>
+        <div class="card-body pb-0">
+          <div id="salesavgChartoptions" #salesavgChartoptionsRef>
+            <apx-chart
+              [chart]="{
+                height: 270,
+                toolbar: { show: false },
+                type: 'line',
+                dropShadow: {
+                  enabled: true,
+                  top: 20,
+                  left: 2,
+                  blur: 6,
+                  opacity: 0.2
+                }
+              }"
+              [stroke]="salesavgChartoptions.stroke"
+              [grid]="salesavgChartoptions.grid"
+              [legend]="salesavgChartoptions.legend"
+              [colors]="salesavgChartoptions.colors"
+              [fill]="salesavgChartoptions.fill"
+              [xaxis]="salesavgChartoptions.xaxis"
+              [yaxis]="salesavgChartoptions.yaxis"
+              [tooltip]="salesavgChartoptions.tooltip"
+              [series]="data.sales.series"
+            >
+          </apx-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+ </div>

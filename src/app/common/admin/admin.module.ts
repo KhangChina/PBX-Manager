@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from '../dashboard/dashboard.component';
 import { UserComponent } from '../user/user.component';
 import { AuthGuard } from 'app/services/auth-guard';
 
@@ -10,18 +9,17 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: DashboardComponent,
-        data: { animation: 'dashboard' }
+        loadChildren: () => import('../dashboard/dashboard.module').then(m => m.DashboardModule),
       },
       {
         path: 'dashboard',
-        component: DashboardComponent,
-        data: { animation: 'dashboard' }
+        loadChildren: () => import('../dashboard/dashboard.module').then(m => m.DashboardModule),
+       
       },
       {
         path: 'user-manager',
         component: UserComponent,
-        data: { animation: 'dashboard' }
+        data: { animation: 'user-manager' }
       },
       {
         path: 'phone-account',
