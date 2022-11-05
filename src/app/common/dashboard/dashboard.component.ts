@@ -161,59 +161,6 @@ export class DashboardComponent implements OnInit {
             x: { show: false }
           }
     };
-    this.supportChartoptions = {
-      chart: {
-        height: 290,
-        type: 'radialBar',
-        sparkline: {
-          enabled: false
-        }
-      },
-      plotOptions: {
-        radialBar: {
-          offsetY: 20,
-          startAngle: -150,
-          endAngle: 150,
-          hollow: {
-            size: '65%'
-          },
-          track: {
-            background: this.$white,
-            strokeWidth: '100%'
-          },
-          dataLabels: {
-            name: {
-              offsetY: -5,
-              color: this.$textHeadingColor,
-              fontSize: '1rem'
-            },
-            value: {
-              offsetY: 15,
-              color: this.$textHeadingColor,
-              fontSize: '1.714rem'
-            }
-          }
-        }
-      },
-      colors: [colors.solid.danger],
-      fill: {
-        type: 'gradient',
-        gradient: {
-          shade: 'dark',
-          type: 'horizontal',
-          shadeIntensity: 0.5,
-          gradientToColors: [colors.solid.primary],
-          inverseColors: true,
-          opacityFrom: 1,
-          opacityTo: 1,
-          stops: [0, 100]
-        }
-      },
-      stroke: {
-        dashArray: 8
-      },
-      labels: ['CPU Performant']
-    };
     this.employeeDangerChartoptions = {
       chart: {
         height: 32,
@@ -484,7 +431,7 @@ export class DashboardComponent implements OnInit {
     sales: {
       series: [
         {
-          name: 'Sales',
+          name: 'Request',
           data: [140, 180, 150, 205, 160, 295, 125, 255, 205, 305, 240, 295]
         }
       ],
