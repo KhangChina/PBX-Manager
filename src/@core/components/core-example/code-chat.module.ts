@@ -2,15 +2,20 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
+
+import {
+  PerfectScrollbarModule,
+} from 'ngx-perfect-scrollbar';
+
 import { CoreDirectivesModule } from '@core/directives/directives';
 import { CoreSidebarModule } from '@core/components/core-sidebar/core-sidebar.module';
-import { CorePhoneComponent } from '@core/components/core-phone/core-phone.component';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CoreChatComponent } from './core-chat.component';
+
+
+
 
 @NgModule({
-  declarations: [CorePhoneComponent],
+  declarations: [CoreChatComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -18,11 +23,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FlexLayoutModule,
     PerfectScrollbarModule,
     CoreDirectivesModule,
-    CoreSidebarModule,
-    NgSelectModule,
-    NgbModule
+    CoreSidebarModule
   ],
-  providers: [],
-  exports: [CorePhoneComponent]
+  exports: [CoreChatComponent]
 })
-export class CorePhoneModule {}
+export class CoreChatModule {}

@@ -16,7 +16,7 @@ import { AdminModule } from './common/admin/admin.module';
 import { AuthGuard } from './services/auth-guard';
 import { ErrorComponent } from './common/error/error.component';
 import { ClientModule } from './common/clients/client.module';
-import { CoreSidebarModule, CorePhoneModule,CoreThemeCustomizerModule } from '@core/components';
+import { CoreSidebarModule, CorePhoneModule,CoreThemeCustomizerModule ,CoreChatModule} from '@core/components';
 // import { PhoneModule } from '@core/components/phone/phone.module';
 
 // import { SampleModule } from './main/sample/sample.module';
@@ -63,7 +63,8 @@ const appRoutes: Routes = [
     ClientModule,
     CoreSidebarModule,
     CoreThemeCustomizerModule,
-    CorePhoneModule
+    CorePhoneModule,
+    CoreChatModule
   ],
   providers: [RestApiService],
   bootstrap: [AppComponent]

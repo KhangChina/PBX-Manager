@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import * as JsSIP from '../../../../node_modules/jssip/lib/JsSIP'
+import * as JsSIP from 'jssip'
 import { Pjsip } from './common/pjsip';
 import { Session } from './common/session'
 
@@ -15,9 +15,9 @@ import { Session } from './common/session'
 export class CorePhoneComponent implements OnInit, AfterViewInit {
   constructor(private _coreSidebarService: CoreSidebarService, private modalService: NgbModal) { }
   ngAfterViewInit(): void {
-    setTimeout(()=>{
-      this.toggleSidebar('phone')
-    }, 1000);
+    // setTimeout(()=>{
+    //   this.toggleSidebar('phone')
+    // }, 1000);
    
   }
   phoneBook: any = [
