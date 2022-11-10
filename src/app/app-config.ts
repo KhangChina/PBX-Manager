@@ -48,6 +48,6 @@ export const coreConfig: CoreConfig = {
     scrollTop   : true,                       //Boolean: true, false (Enable scroll to top button)
     buyNow      : true,                       //Boolean: true, false (Set false in real project, For demo purpose only)
     sipPhone : true,                          //Boolean: true, false (Enable Call Sip)
-    sipMsg : false,                           //Boolean: true, false (Enable Messenger Sip)
+    sipMsg : true,                           //Boolean: true, false (Enable Messenger Sip)
   }
 }
