@@ -18,6 +18,7 @@ import { locale as menuEnglish } from 'app/menu/i18n/en';
 import { locale as menuFrench } from 'app/menu/i18n/fr';
 import { locale as menuGerman } from 'app/menu/i18n/de';
 import { locale as menuPortuguese } from 'app/menu/i18n/pt';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -29,10 +30,10 @@ export class AppComponent implements OnInit, OnDestroy {
   menu: any;
   defaultLanguage: 'en'; // This language will be used as a fallback when a translation isn't found in the current language
   appLanguage: 'en'; // Set application default language i.e fr
-
+  checkLogin:boolean
   // Private
   private _unsubscribeAll: Subject<any>;
-
+ 
   /**
    * Constructor
    *
@@ -57,7 +58,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private _coreLoadingScreenService: CoreLoadingScreenService,
     private _coreMenuService: CoreMenuService,
     private _coreTranslationService: CoreTranslationService,
-    private _translateService: TranslateService
+    private _translateService: TranslateService,
+    private authServices: AuthService
   ) {
     // Get the application main menu
     this.menu = menu;
@@ -232,6 +234,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Set the application page title
     this._title.setTitle(this.coreConfig.app.appTitle);
+    this.checkLogin = this.authServices.isAuthenticated()
   }
 
   /**

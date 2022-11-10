@@ -44,8 +44,10 @@ export const coreConfig: CoreConfig = {
       backgroundColor      : ''               // BS color i.e bg-primary, bg-success
     },
     enableLocalStorage: true,
-    customizer  : true,                       // Boolean: true, false (Enable theme customizer)
-    scrollTop   : true,                       // Boolean: true, false (Enable scroll to top button)
-    buyNow      : true                        // Boolean: true, false (Set false in real project, For demo purpose only)
+    customizer  : true,                      //Boolean: true, false (Enable theme customizer)
+    scrollTop   : true,                       //Boolean: true, false (Enable scroll to top button)
+    buyNow      : true,                       //Boolean: true, false (Set false in real project, For demo purpose only)
+    sipPhone : true,                          //Boolean: true, false (Enable Call Sip)
+    sipMsg : false,                           //Boolean: true, false (Enable Messenger Sip)
   }
 }

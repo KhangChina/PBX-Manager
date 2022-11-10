@@ -57,6 +57,8 @@ export class AuthLoginV2Component implements OnInit {
         footer: {
           hidden: true
         },
+        sipPhone: false,
+        sipMsg: false,
         customizer: false,
         enableLocalStorage: false
       }

@@ -36,6 +36,8 @@ export class ErrorComponent implements OnInit {
         menu: {
           hidden: true
         },
+        sipPhone: false,
+        sipMsg: false,
         customizer: false,
         enableLocalStorage: false
       }

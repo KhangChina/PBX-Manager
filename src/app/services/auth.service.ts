@@ -9,7 +9,7 @@ export class AuthService {
 
 constructor( private rest : RestApiService) {}
 
-isAuthenticated(){
+isAuthenticated():boolean{
 const accessToken = localStorage.getItem('accessToken')
 const refreshToken = localStorage.getItem('refreshToken')
   let headers = this.rest.getHeaders()

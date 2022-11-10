@@ -32,5 +32,7 @@ export interface CoreConfig {
     customizer: boolean;
     scrollTop: boolean;
     buyNow: boolean;
+    sipPhone: boolean;
+    sipMsg : boolean;
   };
 }
