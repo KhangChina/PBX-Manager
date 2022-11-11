@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {  Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as JsSIP from 'jssip'
+import { CoreChatComponent } from '../core-chat/core-chat.component';
 import { Pjsip } from './common/pjsip';
 import { Session } from './common/session'
 
@@ -9,30 +10,32 @@ import { Session } from './common/session'
   selector: 'core-phone',
   templateUrl: './core-phone.component.html',
   styleUrls: ['./core-phone.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+ 
 })
 
-export class CorePhoneComponent implements OnInit, AfterViewInit {
+export class CorePhoneComponent implements OnInit {
   constructor(private _coreSidebarService: CoreSidebarService, private modalService: NgbModal) { }
-  ngAfterViewInit(): void {
-    // setTimeout(()=>{
-    //   this.toggleSidebar('phone')
-    // }, 1000);
-   
-  }
+
   phoneBook: any = [
     {
-      name: "IT",
-      value: 999
+      name: "Webphone 125",
+      value: 125,
+      id:"125",
+      contact:'sip:125@192.168.100.65'
     },
     {
-      name: "Software",
-      value: 998
+      name: "Webphone 127",
+      value: 127,
+      id:"127",
+      contact:'sip:127@192.168.100.65'
     },
     {
-      name: "Hardware",
-      value: 997
-    },
+      name: "Devphone 123",
+      value: 123,
+      id:"123",
+      contact:'sip:123@192.168.100.65'
+    }
   ]
   ngOnInit(): void {
    
@@ -55,7 +58,7 @@ export class CorePhoneComponent implements OnInit, AfterViewInit {
   toggleSidebar(key): void {
     this.modalPhone = this._coreSidebarService.getSidebarRegistry(key).toggleOpen();
   }
-
+ 
   @Input() pjsip: Pjsip
   @ViewChild('localVideo')
   localVideo!: ElementRef;
@@ -63,6 +66,8 @@ export class CorePhoneComponent implements OnInit, AfterViewInit {
   remoteVideo!: ElementRef
   @ViewChild('modalIncomingUI')
   modalIncomingUI!: ElementRef
+
+  @ViewChild(CoreChatComponent) child: CoreChatComponent;
 
   modalIncoming: any
   modalCallAudio: any
@@ -100,6 +105,13 @@ export class CorePhoneComponent implements OnInit, AfterViewInit {
   checkWeb: boolean = false
 
   sessionIncoming : any
+
+  @Input() userProfileChat: any;
+  @Input() userSender: any;
+  @Input() messageUser: string;
+  @Input() messageSender: string;
+
+  btnMsg :boolean = true
   startSipPhone() {
     console.log(this.pjsip.webServer + " start")
     let socket = new JsSIP.WebSocketInterface(this.pjsip.webServer);
@@ -141,6 +153,7 @@ export class CorePhoneComponent implements OnInit, AfterViewInit {
         //console.log(this.sessionIncoming)
         //console.log(this.sessionIncoming.isMuted())
         this._coreSidebarService.getSidebarRegistry('phone').close()
+        
         //this.toggleSidebar('phone')
         this.modalIncoming = this.modalService.open(this.modalIncomingUI, {
           backdrop: false,
@@ -176,10 +189,30 @@ export class CorePhoneComponent implements OnInit, AfterViewInit {
         });
       }
     });
+
+    this.callSession.sipPhone.on('newMessage', (e: any) =>{ 
+      console.log('newMessage')
+      if(e.request.constructor.name === "IncomingRequest")
+      {
+        const dataMesinger = e.request
+        console.log(dataMesinger)
+        // console.log(dataMesinger.from)
+        this.messageSender = dataMesinger.body
+        this.userSender ={
+          id: parseInt(dataMesinger.from._uri._user), //sip
+          fullName: dataMesinger.from._uri._user,
+          status: 'online',
+          contact:`sip:${dataMesinger.from._uri._user}@${dataMesinger.from._uri._host}`
+        }
+        this.child.receiveMsg(this.userSender,this.messageSender)
+      }
+     });
+     
     this.callSession.sipPhone.start();
 
   }
   register() {
+    
     this.txtSipServer = true
     this.txtWebServer = true
     this.txtUser = true
@@ -252,24 +285,28 @@ export class CorePhoneComponent implements OnInit, AfterViewInit {
     }
 
   }
-
   uiRefresh() {
-   
     if (this.checkSIP && this.checkWeb) {
       this.txtCall = false
       this.selectPhoneBook = false
-    
-      
+      this.btnMsg = false
+      this.userProfileChat ={
+        id: this.pjsip.user,
+        fullName:this.pjsip.user,
+        status: 'online',
+      }
     }
     else {
       this.btnCallAudio = true
       this.btnCallVideo = true
       this.txtCall = true
+      this.btnMsg = true
     }
     this.btnHangup = true
     this.selectPhoneNumber = null
     this.btnMute = true
     this.btnOffVideo = true
+   
 
     this.remoteVideo.nativeElement.srcObject = null
     this.localVideo.nativeElement.srcObject = null
@@ -432,4 +469,8 @@ export class CorePhoneComponent implements OnInit, AfterViewInit {
       this.statusVideo = checkVideo.video
     }
   }
+
+ 
+
 }
+

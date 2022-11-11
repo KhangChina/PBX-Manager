@@ -1,8 +1,13 @@
 <div class="customizer-content" [perfectScrollbar]>
   <!-- Customizer header -->
-  <div class="customizer-header px-2 pt-1 pb-0 position-relative">
-    <h4 class="mb-0">Chat Sip</h4>
-    <p class="m-0">Real Time</p>
+  <div class="customizer-header px-2 pt-1 pb-0 position-relative" >
+    <h4 class="mb-0">{{userProfileChat.id}}</h4>
+    <p class="m-0">{{userProfileChat.fullName}}</p>
+
+    <button class="customizer-close btn btn-icon rounded-circle btn-warning" (click)="toggleSidebar('chat')">
+      <span [data-feather]="'arrow-right'"></span>
+    </button>
+
   </div>
   <hr />
     <div class="col-12"> 
@@ -27,51 +32,24 @@
       <div class="table-responsive">
         <table class="table table-hover-animation">
           <tbody>
-            <tr>
-              <td>
+            <tr *ngFor="let item of phoneBook">
+              <td >
                 <div class="d-flex align-items-center ">
                   <div class="avatar mr-1 ml-0 bg-light-primary">
-                    <div class="avatar-content">369</div>
+                    <div class="avatar-content">{{item.id}}</div>
                     <span class="avatar-status-online"></span>
                   </div>
                  
                   <div class="cell-line-height">
-                    <a class="font-medium-1 d-block"><span class="font-weight-bold">IT Support</span></a>
+                    <a class="font-medium-1 d-block"><span class="font-weight-bold">{{item.contact}}</span></a>
                   </div>
                 </div>
               </td>
               <td>
                 <button type="button" class="btn btn-icon btn-icon rounded-circle btn-primary mr-1" rippleEffect  (click)="toggleSidebar('phone')">
                   <span [data-feather]="'phone'"></span></button>
-                  <button type="button" class="btn btn-icon btn-icon rounded-circle btn-info mr-1" rippleEffect  (click)="toggleSidebar('phone')">
-                    <span [data-feather]="'video'"></span></button>
-                <button type="button" class="btn btn-icon btn-icon rounded-circle btn-success" rippleEffect  (click)="toggleSidebar('chat-user-sidebar')">
+                <button type="button" class="btn btn-icon btn-icon rounded-circle btn-success" rippleEffect  (click)="openMessager('chat-user-sidebar',item)">
                   <span [data-feather]="'message-square'"></span></button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="d-flex align-items-center">
-                  <div class="avatar mr-1 ml-0 bg-light-primary">
-                    <div class="avatar-content">367</div>
-                    <span class="avatar-status-online"></span>
-                  </div>
-                 
-                  <div class="cell-line-height">
-                    <a class="font-medium-1 d-block"><span class="font-weight-bold">Customer</span></a>
-                    
-                  </div>
-                </div>
-              </td>
-              <td>
-                <button type="button" class="btn btn-icon btn-icon rounded-circle btn-primary mr-1" rippleEffect  (click)="toggleSidebar('phone')">
-                  <span [data-feather]="'phone'"></span></button>
-
-                  <button type="button" class="btn btn-icon btn-icon rounded-circle btn-info mr-1" rippleEffect  (click)="toggleSidebar('phone')">
-                    <span [data-feather]="'video'"></span></button>
-
-                <button type="button" class="btn btn-icon btn-icon rounded-circle btn-success" rippleEffect  (click)="toggleSidebar('chat-user-sidebar')">
-                  <span [data-feather]="'message-square'"></span></button>                
               </td>
             </tr>
           </tbody>
@@ -108,16 +86,16 @@ name="chat-user-sidebar"
 hideOnEsc="true"
 invisibleOverlay="true"
 >
-<div class="customizer-content" [perfectScrollbar]>
+<div class="customizer-content" [perfectScrollbar] *ngIf="userSender">
   <div class="card-header customizer-header px-2 position-relative">
     <div class="d-flex align-items-center">
       
         <div class="avatar bg-light-primary avatar-lg">
-          <span class="avatar-content">369</span>
+          <span class="avatar-content">{{userSender.id}}</span>
           <span class="avatar-status-online"></span>
         </div>
       
-      <h5 class="mb-0 ml-1">{{ userProfileChat.fullName }}</h5>
+      <h5 class="mb-0 ml-1">{{ userSender.contact }}</h5>
       <button class="customizer-close btn btn-icon rounded-circle btn-warning" (click)="toggleSidebar('chat-user-sidebar')">
         <span [data-feather]="'arrow-right'"></span>
       </button>
@@ -127,17 +105,17 @@ invisibleOverlay="true"
     <div class="chat-widget"> 
       <section class="chat-app-window">
       <div class="user-chats" [perfectScrollbar] #scrollMe [scrollTop]="scrolltop">
-        <div class="chats">
+        <div class="chats" *ngIf="convention">
           <div
             class="chat col"
-            *ngFor="let chatRef of chats.chat"
-            [ngClass]="{ 'chat-left': chatRef.senderId === chats.userId }"
+            *ngFor="let chatRef of convention.chat"
+            [ngClass]="{ 'chat-left': chatRef.senderId === convention.userId }"
           >
             <div class="chat-avatar">
               <!-- avatar box-shadow-1 cursor-pointer -->
               <span class="">
                 <div class="avatar bg-light-warning" *ngIf="chatRef.senderId === chats.userId; else alternateAvatar">
-                  <span class="avatar-content">369</span>
+                  <span class="avatar-content">{{chatRef.senderId}}</span>
                 </div>
 
                 <ng-template #alternateAvatar>
@@ -161,15 +139,15 @@ invisibleOverlay="true"
   <div class="col-12 pt-1">  
         <div class="input-group">
           <input
-          [(ngModel)]="chatMessage"
-          (keydown.enter)="updateChat()"
+          [(ngModel)]="messageUser"
+          (keydown.enter)="send()"
             type="text"
             class="form-control"
             placeholder="Message is here !"
             aria-describedby="button-addon2"
           />
           <div class="input-group-append" id="button-addon2">
-            <button class="btn btn-primary" type="button" (click)="updateChat()" rippleEffect>Send <span [data-feather]="'send'" [class]="'mr-25'"></span></button>
+            <button class="btn btn-primary" type="button" (click)="send()" rippleEffect>Send <span [data-feather]="'send'" [class]="'mr-25'"></span></button>
           </div>
         </div>
       

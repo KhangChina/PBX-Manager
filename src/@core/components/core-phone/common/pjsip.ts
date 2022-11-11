@@ -9,9 +9,9 @@ export class Pjsip {
     answer : boolean
 
     constructor(){
-       this.sipServer = "192.168.100.85:5060"
-       this.webServer = "ws://192.168.100.85:8088/ws"
-       this.user = "127"
+       this.sipServer = "192.168.100.65:5060"
+       this.webServer = "ws://192.168.100.65:8088/ws"
+       this.user = "124"
        this.pass = "htgsoft@"
        this.audio = true
        this.video = false

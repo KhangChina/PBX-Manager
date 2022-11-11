@@ -2,7 +2,7 @@
   <!-- Customizer header -->
   <div class="customizer-header px-2 pt-1 pb-0 position-relative">
     <h4 class="mb-0">Soft Phone <div class="badge badge-glow badge-info">{{pjsip.user}}</div></h4>
-<br>
+    <br>
     <div class="badge badge-danger mx-1" *ngIf="!checkSIP" >
       <i data-feather="alert-triangle" class="mr-25"> </i>
       <span [textContent]="statusSip"></span>
@@ -12,7 +12,6 @@
       <i data-feather="check-circle" class="mr-25"> </i>
       <span [textContent]="statusSip"></span>
     </div>
-
 
     <div class="badge badge-danger" *ngIf="!checkWeb" >
       <i data-feather="alert-triangle" class="mr-25"></i>
@@ -25,6 +24,7 @@
     </div>
 
     <a class="customizer-close" (click)="toggleSidebar('phone')"><span [data-feather]="'x'"></span></a>
+
   </div>
 
    
@@ -75,13 +75,11 @@
 
   <div class="col-12 text-center">
     <div class="form-group">
-      <button type="button" [disabled]="btnCallAudio" rippleEffect class="btn btn-outline-primary mr-1" (click)="callAudio()"><i data-feather='phone-call'></i> Audio</button>
-      <!-- <button type="button" [disabled]="btnCall" rippleEffect class="btn btn-outline-primary mr-1" (click)="callAudio(modalCall)"><i data-feather='phone-call'></i></button> -->
-      <button type="button" [disabled]="btnCallVideo" rippleEffect class="btn btn-outline-info mr-1" (click)=" callVideo()"><i data-feather='video' ></i> Video</button>
-      <button type="button" [disabled]="btnHangup" rippleEffect class="btn btn-outline-danger mr-1" (click)="hangup() "><i data-feather='phone-off'></i> Hangup</button>
+      <button type="button" [disabled]="btnCallAudio" rippleEffect class="btn btn-outline-primary mr-1" (click)="callAudio()"><i data-feather='phone-call'></i></button>
+      <button type="button" [disabled]="btnCallVideo" rippleEffect class="btn btn-outline-info mr-1" (click)=" callVideo()"><i data-feather='video' ></i></button>
+      <button type="button" [disabled]="btnHangup" rippleEffect class="btn btn-outline-danger mr-1" (click)="hangup() "><i data-feather='phone-off'></i></button>
+      <button type="button" [disabled]="btnMsg" rippleEffect class="btn btn-outline-primary mr-1" (click)="toggleSidebar('chat')"><i data-feather='message-circle'></i></button>
     </div>
-   
-    
   </div>
   <div class="col-12">
     
@@ -299,3 +297,15 @@
 
 
 <!-- Modal -->
+
+<core-sidebar class="customizer d-none d-md-block" name="chat" hideOnEsc="true" invisibleOverlay="true">
+<core-chat
+[userProfileChat]="userProfileChat"
+[userSender]="userSender" 
+[messageUser]="messageUser" 
+[messageSender]="messageSender" 
+[phoneSession]="callSession.sipPhone"
+[phoneBook]="phoneBook"
+>
+</core-chat>
+</core-sidebar>

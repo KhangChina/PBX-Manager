@@ -8,6 +8,7 @@ import { CoreSidebarModule } from '@core/components/core-sidebar/core-sidebar.mo
 import { CorePhoneComponent } from '@core/components/core-phone/core-phone.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CoreChatModule } from '../core-chat/code-chat.module';
 
 @NgModule({
   declarations: [CorePhoneComponent],
@@ -20,7 +21,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CoreDirectivesModule,
     CoreSidebarModule,
     NgSelectModule,
-    NgbModule
+    NgbModule,
+    CoreChatModule
   ],
   providers: [],
   exports: [CorePhoneComponent]

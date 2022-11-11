@@ -64,7 +64,6 @@ const appRoutes: Routes = [
     CoreSidebarModule,
     CoreThemeCustomizerModule,
     CorePhoneModule,
-    CoreChatModule
   ],
   providers: [RestApiService],
   bootstrap: [AppComponent]

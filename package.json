@@ -4,7 +4,7 @@
   "main": "app.js",
   "scripts": {
     "ng": "ng",
-    "dev": "ng serve --open",
+    "dev": "ng serve --host 0.0.0.0 --port 4200 --disable-host-check",
     "start": "node server.js",
     "win": "ng build --base-href ./ && electron .",
     "build": "ng build",
