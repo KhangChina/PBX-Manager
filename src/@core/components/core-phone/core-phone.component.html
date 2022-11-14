@@ -78,16 +78,22 @@
       <button type="button" [disabled]="btnCallAudio" rippleEffect class="btn btn-outline-primary mr-1" (click)="callAudio()"><i data-feather='phone-call'></i></button>
       <button type="button" [disabled]="btnCallVideo" rippleEffect class="btn btn-outline-info mr-1" (click)=" callVideo()"><i data-feather='video' ></i></button>
       <button type="button" [disabled]="btnHangup" rippleEffect class="btn btn-outline-danger mr-1" (click)="hangup() "><i data-feather='phone-off'></i></button>
-      <button type="button" [disabled]="btnMsg" rippleEffect class="btn btn-outline-primary mr-1" (click)="toggleSidebar('chat')"><i data-feather='message-circle'></i></button>
+      
+      <button type="button" [disabled]="btnMsg" rippleEffect class="btn btn-outline-primary mr-1" (click)="toggleSidebar('chat')">
+        
+        <!-- <i data-feather='message-circle'></i> -->
+        <div class="position-relative d-inline-block">
+          <span [data-feather]="'message-circle'" [class]="'font-medium-1 text-primary'"></span>
+          <span class="badge badge-pill badge-danger badge-glow badge-up" *ngIf="notify!==0">{{notify}}</span>
+        </div>
+
+      </button>
+      
+     
+
     </div>
   </div>
   <div class="col-12">
-    
-    <!-- <button type="button" [disabled]="btnMute" rippleEffect class="btn btn-outline-danger mr-1" (click)="muteCall()"> -->
-      <!-- <i data-feather='volume-x' *ngIf="statusMute===false"></i>
-      <i data-feather='volume-2' *ngIf="statusMute"></i> -->
-    <!-- </button> -->
-   
     <div class="row switch-control">
       <div class="custom-control custom-switch">
       
@@ -109,10 +115,6 @@
   
       </div>
     </div>
-
-    
-
-    <!-- <button type="button" [disabled]="btnOffVideo" rippleEffect class="btn btn-outline-danger mr-1" (click)="offVideo()"><i data-feather='video-off'></i></button> -->
   </div>
 </section>
 
@@ -152,11 +154,11 @@
        <i data-feather='video'></i> Answer Camera
       </button>
 
-      <button type="button" class="btn btn-info mr-1" (click)="modal.close('Accept click')" rippleEffect>
+      <button type="button" class="btn btn-info mr-1" (click)="stopAudioCall()" rippleEffect>
        <i data-feather='volume-x'></i> Stop Music
       </button>
 
-      <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+      <button type="button" class="btn btn-danger" (click)="hangup()" rippleEffect>
         <i data-feather='phone-off'></i> Hangup
       </button>
     </div>

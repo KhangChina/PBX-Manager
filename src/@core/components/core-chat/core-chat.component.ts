@@ -24,13 +24,6 @@ export class CoreChatComponent implements OnInit {
       fullName: 'IT Support',
       status: 'online',
     }
-    // this.userSender = {
-    //   id: 123, //sip
-    //   fullName: 'IT Support',
-    //   status: 'online',
-    //   contact:'sip:367@192.168.100.70'
-    // }
-
     this.chats = [
     {
       id: 2,
@@ -77,30 +70,6 @@ export class CoreChatComponent implements OnInit {
         ]
       },
   ]
-
-  // this.convention = {
-  //   id: 1,
-  //   userId: 0,
-  //   unseenMsgs: 0,
-  //   chat: [
-  //     {
-  //       message: 'Start',
-  //       time: 'Mon Dec 10 2018 07:45:00 GMT+0000 (GMT)',
-  //       senderId: this.userProfileChat.id
-  //     },
-  //     {
-  //       message: 'Start?',
-  //       time: 'Mon Dec 11 2018 07:45:15 GMT+0000 (GMT)',
-  //       senderId: 0
-  //     },
-  //     {
-  //       message: 'Can I get details of my last transaction I made last month?',
-  //       time: 'Mon Dec 11 2018 07:46:10 GMT+0000 (GMT)',
-  //       senderId: this.userProfileChat.id
-  //     }
-  //   ]
-  // }
-
    }
 
   @ViewChild('scrollMe') scrollMe: ElementRef;
@@ -128,8 +97,6 @@ export class CoreChatComponent implements OnInit {
 
         }
       })
-
-      //this.chats.chat.push(this.newChat);
     }
     this.messageUser = '';
     setTimeout(() => {
@@ -185,7 +152,7 @@ export class CoreChatComponent implements OnInit {
 
    receiveMsg(chatUser,chatMessage)
   {
-    console.log(chatUser)
+    
       this.newChat = {
         message: chatMessage,
         time: 'Mon Dec 10 2018 07:46:43 GMT+0000 (GMT)',
@@ -201,8 +168,6 @@ export class CoreChatComponent implements OnInit {
           }
         })
         
-        //this.chats.chat.push(this.newChat);
-        console.log(this.chats.chat)
       }
       chatMessage = '';
       setTimeout(() => {

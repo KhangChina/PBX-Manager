@@ -5,7 +5,7 @@ import * as JsSIP from 'jssip'
 import { CoreChatComponent } from '../core-chat/core-chat.component';
 import { Pjsip } from './common/pjsip';
 import { Session } from './common/session'
-
+import { ToastrService,GlobalConfig } from 'ngx-toastr';
 @Component({
   selector: 'core-phone',
   templateUrl: './core-phone.component.html',
@@ -13,10 +13,11 @@ import { Session } from './common/session'
   encapsulation: ViewEncapsulation.None,
  
 })
-
 export class CorePhoneComponent implements OnInit {
-  constructor(private _coreSidebarService: CoreSidebarService, private modalService: NgbModal) { }
-
+  
+  constructor(private _coreSidebarService: CoreSidebarService, private modalService: NgbModal,private toastr: ToastrService) { }
+  smsSound : any
+  callSound : any
   phoneBook: any = [
     {
       name: "Webphone 125",
@@ -45,6 +46,9 @@ export class CorePhoneComponent implements OnInit {
     this.btnReg = false
     this.btnUnReg = false
     //this.detectDevice()
+
+   this.smsSound = new Audio('../../../assets/audio/sms.mp3');
+   this.callSound =  new Audio('../../../assets/audio/call.mp3');
   }
   modalOpenBD(modalBD) {
     this.modalService.open(modalBD, {
@@ -56,7 +60,12 @@ export class CorePhoneComponent implements OnInit {
     this.toggleSidebar('phone')
   }
   toggleSidebar(key): void {
+    if(key === "chat")
+    {
+      this.notify = 0
+    }
     this.modalPhone = this._coreSidebarService.getSidebarRegistry(key).toggleOpen();
+   
   }
  
   @Input() pjsip: Pjsip
@@ -95,6 +104,7 @@ export class CorePhoneComponent implements OnInit {
   loading: boolean = false
   selectPhoneBook: boolean = true
   
+  notify : number = 0
 
   statusSip: string = ""
   statusWeb: string = ""
@@ -113,7 +123,6 @@ export class CorePhoneComponent implements OnInit {
 
   btnMsg :boolean = true
   startSipPhone() {
-    console.log(this.pjsip.webServer + " start")
     let socket = new JsSIP.WebSocketInterface(this.pjsip.webServer);
     let configuration = {
       sockets: [socket],
@@ -148,13 +157,11 @@ export class CorePhoneComponent implements OnInit {
       this.uiRefresh()
     });
     this.callSession.sipPhone.on('newRTCSession', (e: any) => {
+      console.log("incoming newRTCSession")
       this.sessionIncoming = e.session;
       if (this.sessionIncoming.direction === "incoming") {
-        //console.log(this.sessionIncoming)
-        //console.log(this.sessionIncoming.isMuted())
+        this.callSound.play()
         this._coreSidebarService.getSidebarRegistry('phone').close()
-        
-        //this.toggleSidebar('phone')
         this.modalIncoming = this.modalService.open(this.modalIncomingUI, {
           backdrop: false,
           centered: true,
@@ -166,9 +173,11 @@ export class CorePhoneComponent implements OnInit {
         this.sessionIncoming.on("accepted", () => {
           console.log("incoming accepted")
           this.uiCalling()
+         this.stopAudioCall()
         });
         this.sessionIncoming.on("confirmed", () => {
           console.log("incoming confirmed")
+         this.stopAudioCall()
           this.remoteVideo.nativeElement.srcObject = this.callSession.session.connection.getRemoteStreams()[0]
           this.localVideo.nativeElement.srcObject = this.callSession.session.connection.getLocalStreams()[0]
         });
@@ -177,10 +186,12 @@ export class CorePhoneComponent implements OnInit {
           if (this.modalIncoming) {
             this.modalIncoming.close()
           }
+          this.stopAudioCall()
           this.uiRefresh()
         });
         this.sessionIncoming.on("failed", () => {
           console.log("incoming failed")
+         this.stopAudioCall()
           if (this.modalIncoming) {
             this.modalIncoming.close()
           }
@@ -191,12 +202,12 @@ export class CorePhoneComponent implements OnInit {
     });
 
     this.callSession.sipPhone.on('newMessage', (e: any) =>{ 
-      console.log('newMessage')
+      
+      
       if(e.request.constructor.name === "IncomingRequest")
       {
+        this.smsSound.play();
         const dataMesinger = e.request
-        console.log(dataMesinger)
-        // console.log(dataMesinger.from)
         this.messageSender = dataMesinger.body
         this.userSender ={
           id: parseInt(dataMesinger.from._uri._user), //sip
@@ -205,6 +216,13 @@ export class CorePhoneComponent implements OnInit {
           contact:`sip:${dataMesinger.from._uri._user}@${dataMesinger.from._uri._host}`
         }
         this.child.receiveMsg(this.userSender,this.messageSender)
+        this.toastr.info(this.messageSender, 'New Messages!', {
+          progressBar: true,
+          toastClass: 'toast ngx-toastr',
+          closeButton: true,
+          
+        });
+        this.notify+=1
       }
      });
      
@@ -306,7 +324,6 @@ export class CorePhoneComponent implements OnInit {
     this.selectPhoneNumber = null
     this.btnMute = true
     this.btnOffVideo = true
-   
 
     this.remoteVideo.nativeElement.srcObject = null
     this.localVideo.nativeElement.srcObject = null
@@ -321,6 +338,7 @@ export class CorePhoneComponent implements OnInit {
     this.btnMute = false
     this.txtCall = true
     this.selectPhoneBook = true
+    
   }
   
   checkCallNumber() {
@@ -348,6 +366,8 @@ export class CorePhoneComponent implements OnInit {
   }
   hangup() {
     this.callSession.session.terminate()
+    this.stopAudioCall()
+    
     if (this.modalIncoming) {
       this.modalIncoming.close()
     }
@@ -470,6 +490,11 @@ export class CorePhoneComponent implements OnInit {
     }
   }
 
+  stopAudioCall()
+  {
+    this.callSound.pause();
+    this.callSound.currentTime = 0;
+  }
  
 
 }

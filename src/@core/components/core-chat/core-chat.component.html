@@ -114,7 +114,7 @@ invisibleOverlay="true"
             <div class="chat-avatar">
               <!-- avatar box-shadow-1 cursor-pointer -->
               <span class="">
-                <div class="avatar bg-light-warning" *ngIf="chatRef.senderId === chats.userId; else alternateAvatar">
+                <div class="avatar bg-light-warning" *ngIf="chatRef.senderId === convention.userId; else alternateAvatar">
                   <span class="avatar-content">{{chatRef.senderId}}</span>
                 </div>
 
